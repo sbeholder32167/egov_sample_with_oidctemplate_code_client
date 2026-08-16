@@ -10,7 +10,7 @@ https://github.com/sbeholder32167/oidctemplate_code_client
 ### Description
 
 - 'OIDC Template Code - Client' has been released so that you can refer to it as an example when applying it to Legacy Spring / Egov. framework Applications.
-- It has been tested in an IntelliJ IDE running JDK 1.8 and Tomcat 8.
+- It has been tested in an IntelliJ IDE running JDK 1.8 (Eclipse Adoptium) and Apache Tomcat 8.0.36.
 
 ### Legacy code intrusion details.
 

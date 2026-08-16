@@ -10,7 +10,7 @@ https://github.com/sbeholder32167/oidctemplate_code_client
 
 ### 설명
 - OIDC Template Code - Client를 Legacy Spring / Egov. Application에 적용하실 때 예제로서 참조하실수 있도록 공개하였으며,
-JDK 1.8, Tomcat 8로 동작하는 IntelliJ IDE에서 테스트 되었습니다.
+JDK 1.8 (Eclipse Adoptium), Apache Tomcat 8.0.36 으로 동작하는 IntelliJ IDE에서 테스트 되었습니다.
 - 이 Application은 "Keycloak과 Legacy Egov. framework Application의 RBAC 연동 시연" 영상 제작에 사용된 Application입니다.
 
 ### 레거시 코드 침습 상세 내역
