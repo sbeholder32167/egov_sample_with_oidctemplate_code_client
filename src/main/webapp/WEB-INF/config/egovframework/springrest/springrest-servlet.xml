@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	   http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.2.xsd">
+
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="favorPathExtension" value="true" />
+		<property name="favorParameter" value="true" />
+		<property name="parameterName" value="format" />
+		<property name="ignoreAcceptHeader" value="false" />
+		<property name="defaultContentType" value="text/html" />
+		<property name="mediaTypes">
+			<map>
+				<entry key="json" value="application/json" />
+				<entry key="xml" value="application/xml" />
+			</map>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="contentNegotiationManager" ref="contentNegotiationManager" />
+		<property name="order" value="0" />
+		<property name="defaultViews">
+	        <list>
+	            <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+	            	<property name="prefixJson" value="false"/>
+	            </bean>
+	        </list>
+	    </property>
+	</bean>
+
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0" />
+	</bean>
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver">
+		<property name="order" value="1" />
+	</bean>
+
+    <!-- restful json START -->
+	<bean name="cgr/egovCategoryList" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+		<property name="prefixJson" value="false"/>
+	 </bean>
+    <!-- restful json END -->
+
+    <!--  restful xml (jaxb2)  START-->
+	<bean name="cgr/egovCategoryRegister" class="org.springframework.web.servlet.view.xml.MarshallingView">
+        <property name="marshaller" ref="marshaller" />
+	</bean>
+	
+	<oxm:jaxb2-marshaller id="marshaller">
+		<oxm:class-to-be-bound name="egovframework.rte.tex.cgr.service.CategoryVO" />
+	</oxm:jaxb2-marshaller>
+    <!--  restful xml END-->
+</beans>
