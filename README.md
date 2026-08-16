@@ -16,9 +16,10 @@ https://github.com/sbeholder32167/oidctemplate_code_client
 
 - egovframework.rte.tex.mbr.service.EgovMemberService: Load user information/authorities/code from DB
 - egovframework.rte.tex.mbr.service.impl.MemberDAO: Load user information/authorities/code from DB
-- egovframework.rte.tex.mbr.egovLogin.jsp: Egov.framework 3.7.0 Migration.
-- egovframework.rte.tex.com.leftmenu.jsp: Egov.framework 3.7.0 Migration.
-- egovframework.rte.tex.com.header.jsp: Frontend Screen refresh.
+- egovframework/sqlmap/rte/tex/query/mysql/EgovMember_SQL_mysql.xml : Load user information/authorities/code from DB
+- egovframework/rte/tex/mbr/egovLogin.jsp: Egov.framework 3.7.0 Migration.
+- egovframework/rte/tex/com/leftmenu.jsp: Egov.framework 3.7.0 Migration.
+- egovframework/rte/tex/com/header.jsp: Frontend Screen refresh.
 - Others: Added com.auth0.java-jwt 3.19.3 dependency to pom.xml, etc.
 
 ### License

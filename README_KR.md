@@ -17,9 +17,10 @@ JDK 1.8, Tomcat 8로 동작하는 IntelliJ IDE에서 테스트 되었습니다.
 
 - egovframework.rte.tex.mbr.service.EgovMemberService : DB에서 사용자 정보/권한/코드 로드
 - egovframework.rte.tex.mbr.service.impl.MemberDAO : DB에서 사용자 정보/권한/코드 로드
-- egovframework.rte.tex.mbr.egovLogin.jsp : Egov. framework 3.7.0 Migration.
-- egovframework.rte.tex.com.leftmenu.jsp : Egov. framework 3.7.0 Migration.
-- egovframework.rte.tex.com.header.jsp : Frontend Screen refresh.
+- egovframework/sqlmap/rte/tex/query/mysql/EgovMember_SQL_mysql.xml : DB에서 사용자 정보/권한/코드 로드
+- egovframework/rte/tex/mbr/egovLogin.jsp : Egov. framework 3.7.0 Migration.
+- egovframework/rte/tex/com/leftmenu.jsp : Egov. framework 3.7.0 Migration.
+- egovframework/rte/tex/com/header.jsp : Frontend Screen refresh.
 - 기타 : pom.xml에 com.auth0.java-jwt 3.19.3 의존성 추가 등.
 
 ### 라이선스
