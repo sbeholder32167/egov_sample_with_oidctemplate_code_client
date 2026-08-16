@@ -7,15 +7,24 @@ This project is an application written to enable Keycloak authentication integra
 You can download 'OIDC Template Code - Client' from the repository below:
 https://github.com/sbeholder32167/oidctemplate_code_client
 
-### 🚀 Description
+### Description
 
 - 'OIDC Template Code - Client' has been released so that you can refer to it as an example when applying it to Legacy Spring / Egov. framework Applications.
 - It has been tested in an IntelliJ IDE running JDK 1.8 and Tomcat 8.
 
-### 📄 License
+### Legacy code intrusion details.
+
+- egovframework.rte.tex.mbr.service.EgovMemberService: Load user information/authorities/code from DB
+- egovframework.rte.tex.mbr.service.impl.MemberDAO: Load user information/authorities/code from DB
+- egovframework.rte.tex.mbr.egovLogin.jsp: Egov.framework 3.7.0 Migration.
+- egovframework.rte.tex.com.leftmenu.jsp: Egov.framework 3.7.0 Migration.
+- egovframework.rte.tex.com.header.jsp: Frontend Screen refresh.
+- Others: Added com.auth0.java-jwt 3.19.3 dependency to pom.xml, etc.
+
+### License
 
 - Egov. Framework (in South Korea) : Apache 2.0
 - OIDC Template Code - Client : Apache 2.0
 
-### 📧 Inquiry for Paid Technical Consulting (Support)
+### Inquiry for Paid Technical Consulting (Support)
 - sbeholder6684@gmail.com (in South Korea only.)
