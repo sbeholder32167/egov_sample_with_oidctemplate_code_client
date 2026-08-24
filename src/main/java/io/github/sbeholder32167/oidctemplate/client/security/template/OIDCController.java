@@ -23,7 +23,6 @@ import io.github.sbeholder32167.oidctemplate.client.OIDCConfig;
 import io.github.sbeholder32167.oidctemplate.client.OIDCDataTransferObject;
 import io.github.sbeholder32167.oidctemplate.client.OIDCTokenTransferObject;
 import io.github.sbeholder32167.oidctemplate.client.tokens.OIDCTokens;
-import io.github.sbeholder32167.oidctemplate.client.tokens.impl.KeycloakTokens;
 import io.github.sbeholder32167.oidctemplate.client.session.OIDCSession;
 import io.github.sbeholder32167.oidctemplate.client.session.OIDCSessionManager;
 import io.github.sbeholder32167.oidctemplate.client.OIDCEndpointsInterface;
@@ -133,10 +132,9 @@ public class OIDCController implements OIDCEndpointsInterface {
             return;
         }
 
-        //-- Token verify process (JWKS, aud)
+        //-- Token verify process (JWKS)
         try{
-            this.provider.verifyToken(tto.getIdToken(), true);
-            this.provider.verifyToken(tto.getAccessToken(), false);
+            this.provider.verifyToken(tto);
         } catch (OIDCException e) {
             log.error("JWKS Error:{}-{}", e.getStep().name(), e.getMessage());
             response.sendRedirect("/error=verify_token");
@@ -154,7 +152,7 @@ public class OIDCController implements OIDCEndpointsInterface {
         try {
             //-- OIDC Session register.
             String sessionId = OIDCUtil.extractSessionId(request);
-            oidcTokens = new KeycloakTokens(tto);
+            oidcTokens = this.provider.generateTokens(tto);
             this.sessionManager.registerOIDCSession(oidcTokens.getSid(), sessionId, oidcTokens);
         } catch (OIDCException e) {
             log.error(e.getLocalizedMessage());

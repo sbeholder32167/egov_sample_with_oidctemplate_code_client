@@ -27,17 +27,14 @@ import java.util.*;
  *
  * <p>OIDC Token의 내용으로 Legacy Session을 생성한다.<br>
  * 생성하는 Legacy Session은 Legacy Client에서 사용되는 객체를 그대로 구현한다.<br>
- * Keycloak Provider Example Class.</p>
+ * Google Provider Example Class.</p>
  * @author sbeholder6684
  * @version 1.0.0
- * @since 2026-07-03
+ * @since 2026-08-24
  */
-//-- XML Bean 등록..
-public class EgovAuthConvertAdapterImpl implements ClientAuthConvertAdapter {
-    private static final Logger LOGGER = LoggerFactory.getLogger(EgovAuthConvertAdapterImpl.class);
-
-    @Autowired
-    private OIDCConfig oidcConfig;
+//-- XML Bean 등록.
+public class EgovAuthConvertGoogleAdapterImpl implements ClientAuthConvertAdapter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EgovAuthConvertGoogleAdapterImpl.class);
 
     @Autowired
     private RoleHierarchy roleHierarchy;
@@ -49,12 +46,13 @@ public class EgovAuthConvertAdapterImpl implements ClientAuthConvertAdapter {
     @Override
     public Object buildAuthenticationUsingToken(OIDCTokenTransferObject tto) throws RBACException {
         //-- extract user id.
+        //-- ID Token Parsing (Extract ID Info.)
         Map<String, Claim> idTokenMap = OIDCUtil.parseJwtPayload(tto.getIdToken());
         if (idTokenMap == null || idTokenMap.isEmpty()){
             LOGGER.error("Parsing id token has failed.");
             throw new RBACException("Parsing id Token has failed.");
         }
-        String userId = idTokenMap.get("preferred_username").asString();
+        String userId = idTokenMap.get("email").asString().split("@")[0];
         //-- check user info in legacy DB.
         MemberVO paramVo = new MemberVO();
         paramVo.setId(userId);
@@ -65,18 +63,9 @@ public class EgovAuthConvertAdapterImpl implements ClientAuthConvertAdapter {
             throw new RBACException("loading legacy member info has failed.");
         }
 
-        //-- extract legacy authority code using Client Role from IDP.
-        Map<String, Claim> accessTokenMap = OIDCUtil.parseJwtPayload(tto.getAccessToken());
-        if (accessTokenMap == null){
-            LOGGER.error("Parsing access token has failed.");
-            throw new RBACException("Parsing access Token has failed.");
-        }
-        List<String> clientRoleLst = KeycloakUtil.extractClientRolesFromClaims(this.oidcConfig.getClientId(), accessTokenMap);
-        if (clientRoleLst == null || clientRoleLst.isEmpty()){
-            //-- Example : default role list.
-            clientRoleLst = new ArrayList<String>();
-            clientRoleLst.add("ROLE_USER");
-        }
+        //-- Google 인증 사용자는 무조건 일반 사용자로 정의.
+        List<String> clientRoleLst = new ArrayList<String>();
+        clientRoleLst.add("ROLE_USER");
         //-- Example : 본 레거시 클라이언트는 하나의 계정에 하나의 Role만 대응하기로 DB Scheme이 작성되어 있다. (실무 협의 및 정의가 필요한 사항)
         String authCode;
         try {
@@ -93,12 +82,6 @@ public class EgovAuthConvertAdapterImpl implements ClientAuthConvertAdapter {
             paramVo.setEmail(idTokenMap.get("email").asString());
             paramVo.setPassword(UUID.randomUUID().toString().replace("-", ""));
             paramVo.setName(userId);
-            if (idTokenMap.containsKey("mobile_no")){
-                paramVo.setMobile(idTokenMap.get("mobile_no").asString());
-            }
-            if (idTokenMap.containsKey("tel_no")){
-                paramVo.setTelno(idTokenMap.get("tel_no").asString());
-            }
             paramVo.setMngrSe(authCode);
             try {
                 this.memberService.insertMember(paramVo);

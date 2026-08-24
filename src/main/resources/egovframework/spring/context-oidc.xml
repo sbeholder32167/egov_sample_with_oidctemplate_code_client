@@ -35,7 +35,6 @@
         <property name="logoutUri" value="https://keycloak-idp:8443/realms/Demonstration/protocol/openid-connect/logout" />
         <property name="postLogoutUri" value="http://localhost:8080/sample/index.jsp" />
         <property name="scope" value="openid profile email"/>
-        <!-- 추후 Factory Pattern으로의 확장 고려 -->
         <property name="provider" value="KEYCLOAK"/>
     </bean>
 
