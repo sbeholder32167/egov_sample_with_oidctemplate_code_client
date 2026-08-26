@@ -235,7 +235,7 @@ public class OIDCController implements OIDCEndpointsInterface {
      */
     @Override
     @RequestMapping("/oidc_template_s/manual_logout.do")
-    public void doLogoutManually(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doLogoutManually(HttpServletRequest request, HttpServletResponse response){
         try {
             this.provider.doOutboundIDPLogout(request, response, this.sessionManager, this.logoutAdapter);
         } catch (OIDCException | IOException e) {
