@@ -58,7 +58,7 @@
 
 #### 3. OIDC 설정 파일 복사
 
- - sample 디렉토리의 sample_oidc-config_with_security.xml을 전자정부 통합예제 설정 파일 디렉토리로 복사합니다
+ - setting_sample/security 디렉토리의 sample_oidc-config.xml을 전자정부 통합예제 설정 파일 디렉토리로 복사합니다
  - 이 예제에서는 resources/egovframework/spring/context-oidc.xml 입니다
  - 전자정부 통합 예제 어플리케이션 설정 파일 네이밍 규칙에 맞추기 위해, 파일명을 context-oidc.xml로 변경했습니다.
 
@@ -86,7 +86,7 @@
    - OIDC Login URL에 대해 permitAll로 세팅
    - OIDC Logout URL (Inbound)에 대해 CSRF 우회 처리 적용
    - OIDC Authentication Provider를 Authentication Manager에 추가
- - 표준 Spring Security 설정을 변경하는 예제는, sample 디렉토리의 sample_security-config_with_security.xml 파일을 참조하시기 바랍니다.
+ - 표준 Spring Security 설정을 변경하는 예제는, setting_sample/security 디렉토리의 sample_security-config.xml 파일을 참조하시기 바랍니다.
    - OIDC Template Code에 있습니다.
 
 #### 7. IDP 설정값을 OIDC Config bean에 적용

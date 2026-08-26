@@ -58,7 +58,7 @@
 
 #### 3. Copy OIDC Configuration files.
 
-- Copy sample_oidc-config_with_security.xml from the sample directory to Egov. Integrated sample application configuration file directory.
+- Copy sample_oidc-config.xml from the setting_sample/security directory to Egov. Integrated sample application configuration file directory.
 - In this example, it is resources/egovframework/spring/context-oidc.xml.
 - To comply with the naming conventions for Egov. Integrated sample application configuration files, the filename has been changed to context-oidc.xml.
 
@@ -86,7 +86,7 @@
   - Set the OIDC Login URL to permitAll
   - Apply CSRF bypass processing to the OIDC Logout URL (Inbound)
   - Add the OIDC Authentication Provider to the Authentication Manager
-- For an example of modifying standard Spring Security configurations, please refer to the sample_security-config_with_security.xml file in the sample directory.
+- For an example of modifying standard Spring Security configurations, please refer to the sample_security-config.xml file in the setting_sample directory.
   - It is located in the OIDC Template Code.
 
 #### 7. Applying IDP Configuration to OIDC Config bean.
