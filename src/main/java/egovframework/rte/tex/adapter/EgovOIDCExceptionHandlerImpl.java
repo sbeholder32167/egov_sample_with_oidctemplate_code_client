@@ -27,7 +27,7 @@ public class EgovOIDCExceptionHandlerImpl implements OIDCExceptionHandler {
         LOGGER.error("{} -- {}", step.name(), e.getLocalizedMessage());
         if (step == OIDCExceptionEnum.IDP_AUTH_REDIRECT || step == OIDCExceptionEnum.CHECK_PARAMETERS ||
                 step == OIDCExceptionEnum.CHECK_STATE){
-            //-- OIDCFilter에서 인증 Flow 도중 예외 발생. param은 HttpServlet Response.
+            //-- OIDCFilter에서 인증 Flow 도중 예외 발생.
             try {
                 response.sendRedirect("./mbr/loginView.do?login_error=1" + step.name());
             } catch (IOException ex) {
