@@ -148,6 +148,16 @@ public class OIDCController implements OIDCEndpointsInterface {
             return;
         }
 
+        Authentication authentication;
+        try {
+            authentication = (Authentication)this.authConvertAdapter.buildAuthenticationUsingToken(tto);
+        } catch (RBACException e) {
+            //-- OIDC Login fail. 비지니스 로직에 맞게 구현 필요
+            response.sendRedirect("/error=build_token");
+            return;
+        }
+        log.debug("Process OIDC Authentication finished.");
+
         OIDCTokens oidcTokens;
         try {
             //-- OIDC Session register.
@@ -168,16 +178,6 @@ public class OIDCController implements OIDCEndpointsInterface {
             }
             return;
         }
-
-        Authentication authentication;
-        try {
-            authentication = (Authentication)this.authConvertAdapter.buildAuthenticationUsingToken(tto);
-        } catch (RBACException e) {
-            //-- OIDC Login fail. 비지니스 로직에 맞게 구현 필요
-            response.sendRedirect("/error=build_token");
-            return;
-        }
-        log.debug("Process OIDC Authentication finished.");
 
         //-- Client 세션 처리
         this.sessionManager.registerLegacySession(request, response, authentication);

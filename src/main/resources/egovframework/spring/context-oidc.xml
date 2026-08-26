@@ -172,5 +172,4 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
-    <task:annotation-driven/>
 </beans>
