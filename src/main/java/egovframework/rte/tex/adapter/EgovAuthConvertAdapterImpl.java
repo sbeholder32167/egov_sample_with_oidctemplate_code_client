@@ -6,7 +6,7 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.tex.mbr.service.EgovMemberService;
 import egovframework.rte.tex.mbr.service.MemberVO;
 import io.github.sbeholder32167.oidctemplate.adapter.ClientAuthConvertAdapter;
-import io.github.sbeholder32167.oidctemplate.client.OIDCConfig;
+import io.github.sbeholder32167.oidctemplate.client.config.OIDCConfig;
 import io.github.sbeholder32167.oidctemplate.client.OIDCTokenTransferObject;
 import io.github.sbeholder32167.oidctemplate.client.exception.RBACException;
 import io.github.sbeholder32167.oidctemplate.util.KeycloakUtil;

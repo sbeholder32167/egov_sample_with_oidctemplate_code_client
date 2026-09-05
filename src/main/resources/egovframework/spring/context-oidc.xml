@@ -23,17 +23,15 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
     <!-- OIDC Config Bean -->
-    <bean id="OIDCConfig" class="io.github.sbeholder32167.oidctemplate.client.OIDCConfig">
+    <bean id="OIDCConfig" class="io.github.sbeholder32167.oidctemplate.client.config.impl.KeycloakConfig">
+        <constructor-arg index="0" ref="restfulUtil" />
+        <constructor-arg index="1" value="https://keycloak-idp:8443" />
+        <constructor-arg index="2" value="Demonstration" />
         <property name="clientId" value="easy_company3" />
         <property name="clientSecret" value="YlGEPVIylcsVZq5IHcNiMlNc6NBoJzus"/>
         <property name="redirectUri" value="http://localhost:8080/sample/keycloak/oidc_code.do" />
-        <property name="authenticationEndpoint" value="https://keycloak-idp:8443/realms/Demonstration/protocol/openid-connect/auth" />
-        <property name="tokenEndpoint" value="https://keycloak-idp:8443/realms/Demonstration/protocol/openid-connect/token" />
-        <property name="jwksUri" value="https://keycloak-idp:8443/realms/Demonstration/protocol/openid-connect/certs"/>
-        <property name="logoutUri" value="https://keycloak-idp:8443/realms/Demonstration/protocol/openid-connect/logout" />
-        <property name="postLogoutUri" value="http://localhost:8080/sample/index.jsp" />
         <property name="scope" value="openid profile email"/>
-        <property name="provider" value="KEYCLOAK"/>
+        <property name="postLogoutUri" value="http://localhost:8080/sample/index.jsp" />
     </bean>
 
     <!-- OIDC Request Parameter Storage -->

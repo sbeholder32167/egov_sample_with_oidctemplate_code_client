@@ -27,6 +27,7 @@ import io.github.sbeholder32167.oidctemplate.rest.RestfulUtil;
 import io.github.sbeholder32167.oidctemplate.client.session.OIDCSession;
 import io.github.sbeholder32167.oidctemplate.client.session.OIDCSessionManager;
 import org.springframework.http.*;
+import org.springframework.util.Base64Utils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +37,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,9 +58,9 @@ public class OIDCUtil {
     public static String generateState(final int length) {
         byte[] randomBytes = new byte[length];
         secureRandom.nextBytes(randomBytes);
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
+        //return Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
         //-- Under JDK 1.8
-        //return Base64Utils.encodeToUrlSafeString(randomBytes).replaceAll("=+$", "");
+        return Base64Utils.encodeToUrlSafeString(randomBytes).replaceAll("=+$", "");
     }
     /**
      * URI 패스를 기반으로 완전한 URL 주소를 빌드
@@ -94,9 +94,9 @@ public class OIDCUtil {
     public static String generateCodeVerifier() {
         byte[] codeVerifier = new byte[32]; // 32바이트의 난수 생성
         secureRandom.nextBytes(codeVerifier);
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(codeVerifier);
+        //return Base64.getUrlEncoder().withoutPadding().encodeToString(codeVerifier);
         //-- Under JDK 1.8
-        //return Base64Utils.encodeToUrlSafeString(codeVerifier).replaceAll("=+$", "");
+        return Base64Utils.encodeToUrlSafeString(codeVerifier).replaceAll("=+$", "");
     }
 
     /**
@@ -108,9 +108,9 @@ public class OIDCUtil {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(codeVerifier.getBytes(StandardCharsets.UTF_8));
-            return Base64.getUrlEncoder().withoutPadding().encodeToString(hash);
+            //return Base64.getUrlEncoder().withoutPadding().encodeToString(hash);
             //-- Under JDK 1.8
-            //return Base64Utils.encodeToUrlSafeString(hash).replaceAll("=+$", "");
+            return Base64Utils.encodeToUrlSafeString(hash).replaceAll("=+$", "");
         } catch (NoSuchAlgorithmException e) {
             throw new IllegalStateException("SHA-256", e);
         }
