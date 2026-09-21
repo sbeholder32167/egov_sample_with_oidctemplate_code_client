@@ -80,7 +80,15 @@ public class EgovAuthConvertAdapterImpl implements ClientAuthConvertAdapter {
         //-- Example : 본 레거시 클라이언트는 하나의 계정에 하나의 Role만 대응하기로 DB Scheme이 작성되어 있다. (실무 협의 및 정의가 필요한 사항)
         String authCode;
         try {
-            authCode = this.memberService.getCode(clientRoleLst.get(0));
+            //-- Keycloak 서버에서만 사용되는 다른 Role들까지 모두 전달된다.
+            //-- 기존 Legacy DB에 존재하던 Role만을 추려서 authCode를 추출하게한다.
+            String basicRole;
+            if (clientRoleLst.contains("ROLE_ADMIN")){
+                basicRole = "ROLE_ADMIN";
+            }else{
+                basicRole = "ROLE_USER";
+            }
+            authCode = this.memberService.getCode(basicRole);
         } catch (Exception e) {
             LOGGER.error("failed to load code in legacy.");
             throw new RBACException("loading legacy code has failed.");
