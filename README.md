@@ -24,6 +24,13 @@ https://github.com/sbeholder32167/oidctemplate_code_client
 - egovframework/rte/tex/com/header.jsp: Frontend Screen refresh.
 - Others: Added com.auth0.java-jwt 3.19.3 dependency to pom.xml, etc.
 
+### Demonstration Videos.
+
+- This is a video demonstrating the operation of this example.
+    - https://www.youtube.com/watch?v=9FGOm5OUjVU
+- This video demonstrates RBAC functionality using Keycloak's authorization features.  (requires OIDC Template Code-Authz Package)
+    - https://www.youtube.com/watch?v=mgiVfoCt6gc
+
 ### License
 
 - Egov. Framework (in South Korea) : Apache 2.0

@@ -25,6 +25,13 @@ JDK 1.8 (Eclipse Adoptium), Apache Tomcat 8.0.36 으로 동작하는 IntelliJ ID
 - egovframework/rte/tex/com/header.jsp : Frontend Screen refresh.
 - 기타 : pom.xml에 com.auth0.java-jwt 3.19.3 의존성 추가 등.
 
+### 시연 영상
+
+- 본 예제의 OIDC 인증 및 기본 RBAC 시연 영상입니다.
+    - https://www.youtube.com/watch?v=9FGOm5OUjVU
+- Keycloak의 인가 기능을 이용한 RBAC 동작을 본 예제로 시연한 영상입니다. (OIDC Template Code-Authz 필요)
+    - https://www.youtube.com/watch?v=mgiVfoCt6gc
+
 ### 라이선스
 - 전자정부 프레임워크 : Apache 2.0
 - OIDC Template Code - Client : Apache 2.0

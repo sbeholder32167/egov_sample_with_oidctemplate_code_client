@@ -128,3 +128,6 @@
 #### 시연 영상
  - 본 예제의 동작 시연 영상입니다.
    - https://www.youtube.com/watch?v=9FGOm5OUjVU
+ - Keycloak의 인가 기능을 이용한 RBAC 동작을 본 예제로 시연한 영상입니다.(OIDC Template Code-Authz 필요)
+   - https://www.youtube.com/watch?v=mgiVfoCt6gc
+
