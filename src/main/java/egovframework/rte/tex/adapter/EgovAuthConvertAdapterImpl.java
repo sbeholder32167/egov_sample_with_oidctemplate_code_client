@@ -8,7 +8,7 @@ import egovframework.rte.tex.mbr.service.MemberVO;
 import io.github.sbeholder32167.oidctemplate.adapter.ClientAuthConvertAdapter;
 import io.github.sbeholder32167.oidctemplate.client.config.OIDCConfig;
 import io.github.sbeholder32167.oidctemplate.client.OIDCTokenTransferObject;
-import io.github.sbeholder32167.oidctemplate.client.exception.RBACException;
+import io.github.sbeholder32167.oidctemplate.client.exception.TokenConvertException;
 import io.github.sbeholder32167.oidctemplate.util.KeycloakUtil;
 import io.github.sbeholder32167.oidctemplate.util.OIDCUtil;
 import org.slf4j.Logger;
@@ -47,12 +47,12 @@ public class EgovAuthConvertAdapterImpl implements ClientAuthConvertAdapter {
     private EgovMemberService memberService;
 
     @Override
-    public Object buildAuthenticationUsingToken(OIDCTokenTransferObject tto) throws RBACException {
+    public Object buildAuthenticationUsingToken(OIDCTokenTransferObject tto) throws TokenConvertException {
         //-- extract user id.
         Map<String, Claim> idTokenMap = OIDCUtil.parseJwtPayload(tto.getIdToken());
         if (idTokenMap == null || idTokenMap.isEmpty()){
             LOGGER.error("Parsing id token has failed.");
-            throw new RBACException("Parsing id Token has failed.");
+            throw new TokenConvertException("Parsing id Token has failed.");
         }
         String userId = idTokenMap.get("preferred_username").asString();
         //-- check user info in legacy DB.
@@ -62,14 +62,14 @@ public class EgovAuthConvertAdapterImpl implements ClientAuthConvertAdapter {
             paramVo = this.memberService.getMemberOIDC(paramVo);
         } catch (Exception e) {
             LOGGER.error("failed to load member information in legacy.");
-            throw new RBACException("loading legacy member info has failed.");
+            throw new TokenConvertException("loading legacy member info has failed.");
         }
 
         //-- extract legacy authority code using Client Role from IDP.
         Map<String, Claim> accessTokenMap = OIDCUtil.parseJwtPayload(tto.getAccessToken());
         if (accessTokenMap == null){
             LOGGER.error("Parsing access token has failed.");
-            throw new RBACException("Parsing access Token has failed.");
+            throw new TokenConvertException("Parsing access Token has failed.");
         }
         List<String> clientRoleLst = KeycloakUtil.extractClientRolesFromClaims(this.oidcConfig.getClientId(), accessTokenMap);
         if (clientRoleLst == null || clientRoleLst.isEmpty()){
@@ -91,7 +91,7 @@ public class EgovAuthConvertAdapterImpl implements ClientAuthConvertAdapter {
             authCode = this.memberService.getCode(basicRole);
         } catch (Exception e) {
             LOGGER.error("failed to load code in legacy.");
-            throw new RBACException("loading legacy code has failed.");
+            throw new TokenConvertException("loading legacy code has failed.");
         }
         if (paramVo == null || paramVo.getId().isEmpty()){
             //-- 신규 IDP 인증 사용자 : 토큰 속성 정보를 레거시 DB에 삽입하는 것으로 정의되었다고 가정. (실무 협의 및 정의가 필요한 사항)
@@ -112,7 +112,7 @@ public class EgovAuthConvertAdapterImpl implements ClientAuthConvertAdapter {
                 this.memberService.insertMember(paramVo);
             } catch (Exception e) {
                 LOGGER.error("failed to insert user info. in legacy.");
-                throw new RBACException("create user info. has failed.");
+                throw new TokenConvertException("create user info. has failed.");
             }
         }else{
             //-- Example : 기존 사용자의 경우 IDP의 권한으로만 업데이트 하기로 정의한 것으로 가정. (실무 협의 및 정의가 필요한 사항)
@@ -121,7 +121,7 @@ public class EgovAuthConvertAdapterImpl implements ClientAuthConvertAdapter {
                 this.memberService.updateMember(paramVo);
             } catch (Exception e) {
                 LOGGER.error("failed to update user info. in legacy.");
-                throw new RBACException("update user info. has failed.");
+                throw new TokenConvertException("update user info. has failed.");
             }
         }
         //-- extract user authorities in legacy session.
@@ -134,7 +134,7 @@ public class EgovAuthConvertAdapterImpl implements ClientAuthConvertAdapter {
             }
         } catch (Exception e) {
             LOGGER.error("failed to load member authorities in legacy.");
-            throw new RBACException("loading legacy member authorities has failed.");
+            throw new TokenConvertException("loading legacy member authorities has failed.");
         }
 
         //-- ROLE_ADMIN을 넣으면 ROLE_USER, ROLE_RESTRICTED 등을 추출하여 리턴

@@ -1,7 +1,7 @@
 package egovframework.rte.tex.adapter;
 
 import io.github.sbeholder32167.oidctemplate.adapter.ClientLoginAdapter;
-import io.github.sbeholder32167.oidctemplate.exception.OIDCException;
+import io.github.sbeholder32167.oidctemplate.client.exception.OIDCException;
 import io.github.sbeholder32167.oidctemplate.client.tokens.OIDCTokens;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
