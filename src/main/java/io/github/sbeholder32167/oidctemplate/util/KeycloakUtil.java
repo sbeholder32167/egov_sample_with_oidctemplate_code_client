@@ -21,6 +21,7 @@ import org.springframework.http.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Keycloak IDP 전용 Utility 메서드 모음.<br>

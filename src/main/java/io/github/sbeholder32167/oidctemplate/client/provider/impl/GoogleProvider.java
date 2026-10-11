@@ -24,7 +24,7 @@ import io.github.sbeholder32167.oidctemplate.client.session.OIDCSessionManager;
 import io.github.sbeholder32167.oidctemplate.client.session.storage.OIDCAuthParameterStorage;
 import io.github.sbeholder32167.oidctemplate.client.tokens.OIDCTokens;
 import io.github.sbeholder32167.oidctemplate.client.tokens.impl.GoogleTokens;
-import io.github.sbeholder32167.oidctemplate.verify.IDTokenVerifier;
+import io.github.sbeholder32167.oidctemplate.verify.TokenVerifier;
 import io.github.sbeholder32167.oidctemplate.verify.RSAJWKSVerifier;
 import io.github.sbeholder32167.oidctemplate.rest.RestfulUtil;
 import io.github.sbeholder32167.oidctemplate.util.LogUtil;
@@ -221,12 +221,13 @@ public class GoogleProvider extends AbstractOIDCProvider {
 
     @Override
     public void verifyToken(final OIDCTokenTransferObject tto, final String nonce) throws TokenVerifyException {
-        IDTokenVerifier.verifyToken(tto.getIdToken(), this.oidcConfig, nonce);
+        TokenVerifier.verifyIDToken(tto.getIdToken(), this.oidcConfig, nonce);
         try{
             RSAJWKSVerifier.verifyToken(this.restfulUtil, this.oidcConfig.getJwksUri(), tto.getIdToken());
         }catch(JWKSException je){
             throw new TokenVerifyException(TokenVerifyException.Cause.JWKS, "JWKS Error:" + je.step.name() + "-" +  je.getMessage());
         }
+        this.queryTokenInfo(tto.getAccessToken());
     }
 
     @Override

@@ -23,7 +23,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Base64Utils;
 
 import java.io.ByteArrayInputStream;
 import java.math.BigInteger;
@@ -36,6 +35,7 @@ import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -208,9 +208,9 @@ public class RSAJWKSVerifier {
     private static PublicKey getPublicKeyFromX5c(final String x5cStr) throws JWKSException{
         try {
             CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
-            //byte[] decodedCerts = Base64.getDecoder().decode(x5cStr);
+            byte[] decodedCerts = Base64.getDecoder().decode(x5cStr);
             //-- Under JDK 1.8
-            byte[] decodedCerts = Base64Utils.decodeFromString(x5cStr);
+            //byte[] decodedCerts = Base64Utils.decodeFromString(x5cStr);
             X509Certificate certificate = (X509Certificate) certFactory.generateCertificate(new ByteArrayInputStream(decodedCerts));
             return certificate.getPublicKey();
         }catch(CertificateException ce){
@@ -219,11 +219,11 @@ public class RSAJWKSVerifier {
     }
     private static PublicKey getPublicKeyFromJwk(final String nStr, final String eStr) throws JWKSException{
         //-- decode Base64URL.
-        //byte[] nBytes = Base64.getUrlDecoder().decode(nStr);
-        //byte[] eBytes = Base64.getUrlDecoder().decode(eStr);
+        byte[] nBytes = Base64.getUrlDecoder().decode(nStr);
+        byte[] eBytes = Base64.getUrlDecoder().decode(eStr);
         //-- Under JDK 1.8
-        byte[] nBytes = Base64Utils.decodeFromString(nStr);
-        byte[] eBytes = Base64Utils.decodeFromString(eStr);
+        //byte[] nBytes = Base64Utils.decodeFromString(nStr);
+        //byte[] eBytes = Base64Utils.decodeFromString(eStr);
 
         //-- convert to BigInteger.
         BigInteger modulus = new BigInteger(1, nBytes);

@@ -21,7 +21,7 @@ import io.github.sbeholder32167.oidctemplate.client.session.OIDCSession;
 import io.github.sbeholder32167.oidctemplate.client.session.OIDCSessionManager;
 import io.github.sbeholder32167.oidctemplate.client.tokens.OIDCTokens;
 import io.github.sbeholder32167.oidctemplate.client.tokens.impl.KeycloakTokens;
-import io.github.sbeholder32167.oidctemplate.verify.IDTokenVerifier;
+import io.github.sbeholder32167.oidctemplate.verify.TokenVerifier;
 import io.github.sbeholder32167.oidctemplate.verify.RSAJWKSVerifier;
 import io.github.sbeholder32167.oidctemplate.client.*;
 import io.github.sbeholder32167.oidctemplate.client.provider.AbstractOIDCProvider;
@@ -204,7 +204,8 @@ public class KeycloakProvider extends AbstractOIDCProvider {
 
     @Override
     public void verifyToken(final OIDCTokenTransferObject tto, final String nonce) throws TokenVerifyException {
-        IDTokenVerifier.verifyToken(tto.getIdToken(), this.oidcConfig, nonce);
+        TokenVerifier.verifyIDToken(tto.getIdToken(), this.oidcConfig, nonce);
+        TokenVerifier.verifyAccessToken(tto.getAccessToken(), this.oidcConfig);
         try{
             RSAJWKSVerifier.verifyToken(this.restfulUtil, this.oidcConfig.getJwksUri(), tto.getIdToken());
             RSAJWKSVerifier.verifyToken(this.restfulUtil, this.oidcConfig.getJwksUri(), tto.getAccessToken());
@@ -262,7 +263,7 @@ public class KeycloakProvider extends AbstractOIDCProvider {
      * @param response 서블릿 응답 객체
      * @param oidcSessionManager OIDC 세션 관리자. 내부 OIDC Logout을 수행하기 위해 필요.
      * @param clientLogoutAdapter Client Logout Adapter. 내부 OIDC Logout 전/후 처리를 위해 필요.
-     * @throws AuthenticationCodeFlowException OIDC 세션에 ID Token이 없을 경우를 포함한 Token 관련 예외 발생 시 던져진다.
+     * @throws OIDCLogoutException OIDC 세션에 ID Token이 없을 경우를 포함한 Token 관련 예외 발생 시 던져진다.
      * @throws IOException Redirect 동작이 존재할 경우, 실패 시 발생
      */
     @Override
@@ -297,7 +298,7 @@ public class KeycloakProvider extends AbstractOIDCProvider {
      * @param response 서블릿 응답 객체
      * @param oidcSessionManager OIDC 세션 관리자. 내부 OIDC Logout을 수행하기 위해 필요.
      * @param clientLogoutAdapter Client Logout Adapter. 내부 OIDC Logout 전/후 처리를 위해 필요.
-     * @throws AuthenticationCodeFlowException Logout Token 검증 실패 또는 각종 로그아웃 관련 예외 발생 시 던져진다
+     * @throws OIDCLogoutException Logout Token 검증 실패 또는 각종 로그아웃 관련 예외 발생 시 던져진다
      */
     @Override
     public void doInboundIDPLogout(HttpServletRequest request, HttpServletResponse response,
